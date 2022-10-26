@@ -1,0 +1,24 @@
+{
+  "name": "nova-backend",
+  "version": "1.0.0",
+  "description": "NOVA company web backend project",
+  "main": "nova.js\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[n",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akimanagabriel/nova-backend.git"
+  },
+  "author": "Leirbag",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akimanagabriel/nova-backend/issues"
+  },
+  "homepage": "https://github.com/akimanagabriel/nova-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  }
+}
