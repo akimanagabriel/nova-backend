@@ -4,7 +4,8 @@
   "description": "NOVA company web backend project",
   "main": "nova.js\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[n",
   "scripts": {
-    "start": "node nova.js"
+    "start": "node nova.js",
+    "dev": "nodemon nova.js"
   },
   "repository": {
     "type": "git",
