@@ -1,43 +1,24 @@
+require('dotenv').config()
 var mongoose = require('mongoose');
 const express = require('express')
+const bodyParser = require('body-parser');
+const cors = require('cors')
 const app = express()
 const port = process.env.PORT || 5000
-const { database } = require('./configurations/config')
-const Test = require('./Models/Test.modal')
+const { database } = require('./configurations/config');
+const router = require('./Routes/MainRoutes');
 
+// mongoose.connect(database.url)
+const dbUrl = process.env.NODE_ENV === 'development' ? database.offlineUrl : database.onlineUrl
+mongoose.connect(dbUrl, () => console.log('Database connected'))
 
-//Set up default mongoose connection
-mongoose.connect(database.url);
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
-//Get the default connection
-// var db = mongoose.connection;
+// custom middlewares
+app.use('/api', router)
+app.use((req, res) => res.status(404).json({ error: 'path not found' }))
 
-app.get('/create-test', (req, res) => {
-    var test
-    if (req.query.name) {
-        test = Test({ name: req.query.name })
-    } else {
-        test = Test({ name: 'NodeJs test' })
-    }
-
-    test.save((err) => {
-        if (err) res.json(err)
-        res.json({
-            message: 'test created successfully',
-            data: test
-        })
-    })
-})
-
-app.get('/', (req, res) => {
-    Test.find()
-        .exec((err, tests) => {
-            if (err) res.json({
-                message: 'error occured while finding test',
-                details: err
-            })
-            res.json(tests)
-        })
-})
 
 app.listen(port, () => console.log('listening on port: ' + port))
