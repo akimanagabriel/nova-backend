@@ -7,6 +7,7 @@ const app = express()
 const port = process.env.PORT || 5000
 const { database } = require('./configurations/config');
 const router = require('./Routes/MainRoutes');
+const loggger = require('./Middlewares/logger');
 
 // mongoose.connect(database.url)
 const dbUrl = process.env.NODE_ENV === 'development' ? database.offlineUrl : database.onlineUrl
@@ -17,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // custom middlewares
-app.use('/api', router)
+app.use('/api', loggger, router)
 app.use((req, res) => res.status(404).json({ error: 'path not found' }))
 
 

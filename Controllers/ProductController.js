@@ -11,7 +11,7 @@ const productController = {
     },
 
     all: async (req, res) => {
-        const products = await Product.find()
+        const products = await Product.find().sort({ createdAt: -1 })
         return res.json(products)
     },
 
