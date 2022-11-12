@@ -1,9 +1,9 @@
-const User = require('../Models/UserModal')
+const { User, validateUser } = require('../Models/UserModal')
 
 const userController = {
 
     one: async (req, res) => {
-        const user = await User.find({ _id: req.params.id })
+        const user = await User.findOne({ _id: req.params.id })
         if (user.length === 0) return res.status(404).json({ message: "No user found" })
         return res.json(user)
     },
@@ -15,13 +15,27 @@ const userController = {
     },
 
     create: async (req, res) => {
-        const user = User(req.body)
+        const { error, value } = validateUser(req.body)
+
+        if (error) return res.status(400).json({
+            message: 'error occured',
+            error: error.details.map(e => e.message.replaceAll(/\"/g, ""))
+        })
+
+        const user = User(value)
         const data = await user.save()
         if (data) return res.json({ message: 'user created', data })
         return res.json({ message: 'failed to create a user' }).status(500)
     },
 
     update: async (req, res) => {
+        const { error, value } = validateUser(req.body)
+
+        if (error) return res.status(400).json({
+            message: 'error occured',
+            error: error.details.map(e => e.message.replaceAll(/\"/g, ""))
+        })
+
         const user = await User.findByIdAndUpdate(req.params.id, req.body)
         if (!user) return res.status(404).json({ message: 'user not found' })
         return res.json({

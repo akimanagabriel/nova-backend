@@ -1,5 +1,5 @@
 const { isValidObjectId } = require('mongoose')
-const Product = require('../Models/ProductsModel')
+const { Product, productValidator } = require('../Models/ProductsModel')
 
 const productController = {
 
@@ -16,13 +16,25 @@ const productController = {
     },
 
     create: async (req, res) => {
-        const product = await Product(req.body)
+        const { error, value } = productValidator(req.body)
+        if (error) return res.status(400).json({
+            message: 'error occured',
+            error: error.details.map(e => e.message.replaceAll(/\"/g, ""))
+        })
+
+        const product = await Product(value)
         await product.save()
         return res.json({ message: 'product saved', data: product })
     },
 
     update: async (req, res) => {
-        const product = await Product.findByIdAndUpdate(req.params.id, req.body, { upsert: false })
+        const { error, value } = productValidator(req.body)
+        if (error) return res.status(400).json({
+            message: 'error occured',
+            error: error.details.map(e => e.message.replaceAll(/\"/g, ""))
+        })
+
+        const product = await Product.findByIdAndUpdate(req.params.id, value, { upsert: false })
         if (product) {
             const newProduct = await Product.findOne({ _id: req.params.id })
             return res.json({ message: "product modified successfully", data: newProduct })
