@@ -2,6 +2,8 @@ const uploader = require('express-fileupload')
 const express = require('express')
 const route = express.Router()
 
+route.use(uploader());
+
 route.get('/upload', (req, res) => {
     res.sendFile(__dirname + "/views/upload.html")
 })

@@ -4,7 +4,7 @@ const { AuthMiddleware } = require('../Middlewares/authMiddleware')
 const validateId = require('../Middlewares/idMiddleware')
 const route = express.Router()
 
-route.use(AuthMiddleware)
+// route.use(AuthMiddleware)
 
 route.get('/', employeeController.all)
 route.get('/:id', validateId, employeeController.one)
