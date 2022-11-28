@@ -11,7 +11,7 @@ const Controller = {
 
 
     one: async (req, res) => {
-        const employee = await Employee.findById({ _id: req.params.id })
+        const employee = await Employee.findById({ _id: req.params.id }).populate('userId')
         if (!employee) return res.status(404).json({ message: "no employee found" })
         return res.json(employee)
     },

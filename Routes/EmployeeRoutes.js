@@ -1,6 +1,6 @@
 const express = require('express')
 const { employeeController } = require('../Controllers/EmployeeController')
-const { AuthMiddleware } = require('../Middlewares/authMiddleware')
+// const { AuthMiddleware } = require('../Middlewares/authMiddleware')
 const validateId = require('../Middlewares/idMiddleware')
 const route = express.Router()
 
